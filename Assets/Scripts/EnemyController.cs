@@ -7,14 +7,14 @@ public class EnemyController : MonoBehaviour
 {
     public Transform player;
     private NavMeshAgent navMesh; 
-    private float velocityWalking = 3f, velocityPersecution = 6f;
+    private float velocityWalking = 3f, velocityPersecution = 5f;
     private float distanceFollow = 20f, distancePerception = 30f, distanceAttack = 2f;
     private float timeForAttack = 1.5f;
     private float distanceForPlayer, distanceForAIPoint;
     private bool seeingPlayer;
-    private Transform[] destinyRandow;
+    public Transform[] destinyRandow;
     private int AIPointCurrent;
-    private bool followSomething, attackSomething;
+    private bool followSomething, attackSomething, teste;
     private float countPersecution=0, countAttack=0;
     // Start is called before the first frame update
     void Start()
@@ -27,14 +27,14 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distanceForPlayer = Vector3.Distance(player.position, transform.position);
-        distanceForAIPoint = Vector3.Distance(destinyRandow[AIPointCurrent].position, transform.position);
+        distanceForPlayer = Vector3.Distance(player.transform.position, transform.position);
+        distanceForAIPoint = Vector3.Distance(destinyRandow[AIPointCurrent].transform.position, transform.position);
 
         RaycastHit hit;
         Vector3 from = transform.position;
         Vector3 to = player.position;
         Vector3 direction = to - from;
-        if(Physics.Raycast(transform.position, direction, out hit) && distanceForPlayer < distancePerception) // para ver se o player esta no raio de percepçao do inimigo
+        if(Physics.Raycast(transform.position, direction, out hit, 1000) && distanceForPlayer < distancePerception) // para ver se o player esta no raio de percepçao do inimigo
         {
             if (hit.collider.gameObject.CompareTag("Player"))
             {
@@ -83,12 +83,13 @@ public class EnemyController : MonoBehaviour
             Walking();
         }
 
-        if (followSomething)
+        if (teste/*followSomething*/)
         {
             countPersecution += Time.deltaTime;
         }
         if(countPersecution >= 5f && seeingPlayer == false)
         {
+            teste = false;
             followSomething = false;
             countPersecution = 0f;
         }
@@ -103,9 +104,11 @@ public class EnemyController : MonoBehaviour
             countAttack = 0f;
             //tira vida do player aqui
         }
-        else if (countAttack >= timeForAttack && distanceForPlayer > distanceAttack) { }
-        attackSomething = false;
-        countAttack = 0f;
+        else if (countAttack >= timeForAttack && distanceForPlayer > distanceAttack) {
+            attackSomething = false;
+            countAttack = 0f;        
+        }
+
     }
 
     void Walking()
@@ -114,7 +117,11 @@ public class EnemyController : MonoBehaviour
         {
             navMesh.acceleration = 5f;
             navMesh.speed = velocityWalking;
-            navMesh.destination = destinyRandow[AIPointCurrent].position;
+            navMesh.destination = destinyRandow[AIPointCurrent].transform.position;
+        }
+        else
+        {
+            teste = true;
         }
     }
 
