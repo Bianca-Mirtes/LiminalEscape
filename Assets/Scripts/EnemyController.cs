@@ -16,6 +16,7 @@ public class EnemyController : MonoBehaviour
     private int AIPointCurrent;
     private bool followSomething, attackSomething, teste;
     private float countPersecution=0, countAttack=0;
+    private bool playerFrontForEnemy, playerBack;
     // Start is called before the first frame update
     void Start()
     {
