@@ -13,9 +13,10 @@ namespace StarterAssets
 	{
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
-		public float MoveSpeed = 4.0f;
+		public float MoveSpeed = 3.5f;
 		[Tooltip("Sprint speed of the character in m/s")]
-		public float SprintSpeed = 6.0f;
+		public float SprintSpeed = 5.5f;
+		private bool isRunning;
 		[Tooltip("Rotation speed of the character")]
 		public float RotationSpeed = 1.0f;
 		[Tooltip("Acceleration and deceleration")]
@@ -47,9 +48,9 @@ namespace StarterAssets
 		[Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
 		public GameObject CinemachineCameraTarget;
 		[Tooltip("How far in degrees can you move the camera up")]
-		public float TopClamp = 90.0f;
+		public float TopClamp = 34.0f;
 		[Tooltip("How far in degrees can you move the camera down")]
-		public float BottomClamp = -90.0f;
+		public float BottomClamp = -34.0f;
 
 		// cinemachine
 		private float _cinemachineTargetPitch;
@@ -60,8 +61,12 @@ namespace StarterAssets
 		private float _verticalVelocity;
 		private float _terminalVelocity = 53.0f;
 
-		// timeout deltatime
-		private float _jumpTimeoutDelta;
+		// Squat
+		private float velocityCrouched = 2f;
+		private bool isCrouched;
+
+        // timeout deltatime
+        private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
 	
@@ -110,7 +115,7 @@ namespace StarterAssets
 			_fallTimeoutDelta = FallTimeout;
 		}
 
-		private void Update()
+		private void FixedUpdate()
 		{
 			JumpAndGravity();
 			GroundedCheck();
@@ -155,12 +160,35 @@ namespace StarterAssets
 		{
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            if (_input.sprint && Grounded && isCrouched == false)
+            {
+                targetSpeed = SprintSpeed;
+                isRunning = true;
+            }
+            else
+            {
+                targetSpeed = MoveSpeed;
+                isRunning = false;
+            }
 
-			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
+            if (Input.GetKey(KeyCode.Q) && Grounded && isRunning == false)
+            {
+                targetSpeed = velocityCrouched;
+                transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
+                isCrouched = true;
+            }
+            else if (isRunning == false)
+            {
+                targetSpeed = MoveSpeed;
+				isCrouched = false;
+                transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
+            }
+			_controller.height = Mathf.Lerp(_controller.height, 0.5f, 4*Time.deltaTime);
+            // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
-			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-			// if there is no input, set the target speed to 0
-			if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+            // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+            // if there is no input, set the target speed to 0
+            if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
 			// a reference to the players current horizontal velocity
 			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
