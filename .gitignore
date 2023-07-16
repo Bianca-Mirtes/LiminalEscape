@@ -6,6 +6,10 @@
 /UserSettings
 /.vs
 
+/Assets/AssetsAutorais
+/Assets/BackroomAssets
+/Assets/Simple Garage
+
 *.csproj
 *.sln
 
