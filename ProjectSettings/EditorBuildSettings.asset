@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/MenuInicial.unity
     guid: e55405617a070d040a4e9b9be4fd04ff
   - enabled: 1
+    path: Assets/Scenes/Derrota.unity
+    guid: f33102f54bb745d41b651a9ec8d85226
+  - enabled: 1
+    path: Assets/Scenes/Vitoria.unity
+    guid: 37be4df32ed4b4e4e83a7f648354361e
+  - enabled: 1
     path: Assets/Scenes/level1.unity
     guid: bf6b766a0534f1d46a14b4f9ba02385f
   m_configObjects:

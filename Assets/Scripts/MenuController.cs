@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 public class MenuController : MonoBehaviour
 {
     //Constantes de menu
-    public int play = 1;
+    public int play = 3;
 
     public static MenuController instance = null;
     private int previousSceneIndex;
@@ -78,20 +78,18 @@ public class MenuController : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         sceneName = SceneManager.GetActiveScene().name;
-        if (scene.name == "Derrota" || scene.name == "Vitoria")
+        if (scene.name == "Derrota")
         {
-            // Encontra o bot?o pelo nome ou atrav?s de uma busca na hierarquia
             avancar = GameObject.Find("btn1").GetComponent<Button>();
             sair = GameObject.Find("btn2").GetComponent<Button>();
             avancar.onClick.AddListener(loadScene);
             sair.onClick.AddListener(mainMenu);
+        }
 
-            if (scene.name == "Placar" && previousSceneIndex == 17)
-            {
-                GameObject.Find("btn1").SetActive(false);
-                GameObject buttonSair = GameObject.Find("btn2");
-                EventSystem.current.SetSelectedGameObject(buttonSair);
-            }
+        if (scene.name == "Vitoria")
+        {
+            sair = GameObject.Find("btn2").GetComponent<Button>();
+            sair.onClick.AddListener(mainMenu);
         }
 
 
@@ -117,13 +115,10 @@ public class MenuController : MonoBehaviour
 
 
         //setar menu de pause
-        if (sceneName != "MenuInicial" && sceneName != "Derrota" && sceneName != "Vitoria" && sceneName != "Placar")
+        if (sceneName != "MenuInicial" && sceneName != "Derrota" && sceneName != "Vitoria")
         {
             //Salva fase atual pra continuar
-            if (sceneName != "MLevelOne" && sceneName != "MLevelTwo" && sceneName != "MLevelTree" && sceneName != "MLevelFour")
-            {
-                PlayerPrefs.SetInt("FaseAtual", SceneManager.GetActiveScene().buildIndex);
-            }
+            PlayerPrefs.SetInt("FaseAtual", SceneManager.GetActiveScene().buildIndex);
             //controleDeAudio = GameObject.Find("AudioController").GetComponent<AudioController>();
             pause.SetActive(true);
             configMenuPausa.SetActive(true);
@@ -237,10 +232,10 @@ public class MenuController : MonoBehaviour
 
     public void mainMenu()
     {
-        if (SceneManager.GetActiveScene().name.Equals("Vitoria"))
-        {
-            PlayerPrefs.SetInt("FaseAtual", PlayerPrefs.GetInt("FaseAtual") + 1);
-        }
+        //if (SceneManager.GetActiveScene().name.Equals("Vitoria"))
+        //{
+        //    PlayerPrefs.SetInt("FaseAtual", PlayerPrefs.GetInt("FaseAtual") + 1);
+        //}
         //resume();
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
