@@ -52,16 +52,16 @@ public class MenuController : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
-        //menuDePauseBtn = GameObject.Find("VoltarBtn").GetComponent<Button>();
-        //continuarBtn = GameObject.Find("ContinuarBtn").GetComponent<Button>();
-        configuracoesBtn = GameObject.Find("ConfiguracoesBtn").GetComponent<Button>();
-        //menuInicialBtn = GameObject.Find("MenuBtn").GetComponent<Button>();
+        menuDePauseBtn = GameObject.Find("VoltarBtn").GetComponent<Button>();
+        continuarBtn = GameObject.Find("ContinuarBtn").GetComponent<Button>();
+        configuracoesBtn = GameObject.Find("ConfigBtn").GetComponent<Button>();
+        menuInicialBtn = GameObject.Find("MenuBtn").GetComponent<Button>();
 
         configMenuPausa = GameObject.Find("configMenu");
-        //menuPausa = GameObject.Find("pauseMenu");
-        //buttonContinuar = GameObject.Find("ContinuarBtn");
+        menuPausa = GameObject.Find("pauseMenu");
+        buttonContinuar = GameObject.Find("ContinuarBtn");
 
-        //pause.SetActive(false);
+        pause.SetActive(false);
     }
 
     private void OnEnable()
@@ -125,23 +125,23 @@ public class MenuController : MonoBehaviour
                 PlayerPrefs.SetInt("FaseAtual", SceneManager.GetActiveScene().buildIndex);
             }
             //controleDeAudio = GameObject.Find("AudioController").GetComponent<AudioController>();
-            //pause.SetActive(true);
+            pause.SetActive(true);
             configMenuPausa.SetActive(true);
             GameObject volume = GameObject.Find("SliderVolume");
             Slider slider = volume.GetComponent<Slider>();
             //slider.value = controleDeAudio.GetVolume();
 
-            //while (!pause.activeSelf && !buttonContinuar.activeSelf)
-            //{ // Aguarda ate que o menu de pause esteja ativo
+            while (!pause.activeSelf && !buttonContinuar.activeSelf)
+            { // Aguarda ate que o menu de pause esteja ativo
 
-            //}
-            //menuPause(buttonContinuar);
-            //continuarBtn.onClick.AddListener(resume);
-            //configuracoesBtn.onClick.AddListener(configPause);
-            //menuInicialBtn.onClick.AddListener(mainMenu);
-            //menuDePauseBtn.onClick.AddListener(menuPause);
-            //configMenuPausa.SetActive(false);
-            //pause.SetActive(false);
+            }
+            menuPause(buttonContinuar);
+            continuarBtn.onClick.AddListener(resume);
+            configuracoesBtn.onClick.AddListener(configPause);
+            menuInicialBtn.onClick.AddListener(mainMenu);
+            menuDePauseBtn.onClick.AddListener(menuPause);
+            configMenuPausa.SetActive(false);
+            pause.SetActive(false);
         }
 
     }
@@ -152,33 +152,33 @@ public class MenuController : MonoBehaviour
     {
 
         //Coloca o jogo em pause
-        //if (sceneName != "MenuInicial" && sceneName != "Derrota" && sceneName != "Vitoria")
-        //{
-        //    float pausar = Input.GetAxisRaw("Pause");
-        //    if (pausar > 0)
-        //    {
-        //        pause.SetActive(true);
-        //        EventSystem.current.SetSelectedGameObject(buttonContinuar);
-        //        Time.timeScale = 0f;
-        //        menuPause();
-        //    }
-        //    //B pra voltar
-        //    if (pause.activeSelf == true)
-        //    {
-        //        float back = Input.GetAxisRaw("Fire2");
-        //        if (back > 0)
-        //        {
-        //            GameObject configDePausa = GameObject.Find("configMenu");
-        //            if (configDePausa != null)
-        //            {
-        //                configMenuPausa.SetActive(false);
-        //                menuPausa.SetActive(true);
-        //            }
-        //            resume();
-        //        }
-        //    }
+        if (sceneName != "MenuInicial" && sceneName != "Derrota" && sceneName != "Vitoria")
+        {
+            float pausar = Input.GetAxisRaw("Pause");
+            if (pausar > 0)
+            {
+                pause.SetActive(true);
+                EventSystem.current.SetSelectedGameObject(buttonContinuar);
+                Time.timeScale = 0f;
+                menuPause();
+            }
+            //B pra voltar
+            if (pause.activeSelf == true)
+            {
+                float back = Input.GetAxisRaw("Fire2");
+                if (back > 0)
+                {
+                    GameObject configDePausa = GameObject.Find("configMenu");
+                    if (configDePausa != null)
+                    {
+                        configMenuPausa.SetActive(false);
+                        menuPausa.SetActive(true);
+                    }
+                    resume();
+                }
+            }
 
-        //}
+        }
 
         if (sceneName == "MenuInicial")
         {
@@ -254,7 +254,7 @@ public class MenuController : MonoBehaviour
 
     public void configPause()
     {
-        GameObject button = GameObject.Find("VolumeBtn");
+        GameObject button = GameObject.Find("SliderVolume");
         EventSystem.current.SetSelectedGameObject(button);
     }
 

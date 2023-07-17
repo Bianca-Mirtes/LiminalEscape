@@ -30,8 +30,8 @@ public class UIController : MonoBehaviour
 
     void Start()
     {
-        corBase = colorRGB(180, 180, 180);
-        corDeSelecao = colorRGB(255, 255, 255);
+        corBase = colorRGB(150, 150, 150);
+        corDeSelecao = colorRGB(227, 233, 217);
         if (MainMenu == null)
         {
             return;
