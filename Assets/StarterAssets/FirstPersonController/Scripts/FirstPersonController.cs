@@ -183,7 +183,7 @@ namespace StarterAssets
 				isCrouched = false;
                 transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
             }
-			_controller.height = Mathf.Lerp(_controller.height, 0.5f, 4*Time.deltaTime);
+			//_controller.height = Mathf.Lerp(_controller.height, 0.5f, 4*Time.deltaTime);
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
