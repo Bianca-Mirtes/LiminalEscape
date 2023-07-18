@@ -7,11 +7,13 @@ public class FlashlightController : MonoBehaviour
     public AudioClip ligado, Off;
     private bool On;
     private Light Luz;
+    private HUDController HUD;
 
     void Start()
     {
         On = true;
         Luz = GetComponent<Light>();
+        HUD = FindObjectOfType<HUDController>();
     }
 
     void Update()
@@ -19,6 +21,7 @@ public class FlashlightController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             On = !On;
+            HUD.lanternaLigaDesliga();
         }
         if (On == true)
         {

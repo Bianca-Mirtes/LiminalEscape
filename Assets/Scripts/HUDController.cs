@@ -40,16 +40,18 @@ public class HUDController : MonoBehaviour
         
     }
 
-    public void apagarLuz()
+    public void lanternaLigaDesliga()
     {
-        lanternaAcesa.SetActive(false);
-        lanternaApagada.SetActive(true);
-    }
-
-    public void acenderLuz()
-    {
-        lanternaApagada.SetActive(false);
-        lanternaAcesa.SetActive(true);
+        if (lanternaAcesa.activeSelf)
+        {
+            lanternaAcesa.SetActive(false);
+            lanternaApagada.SetActive(true);
+        }
+        else
+        {
+            lanternaApagada.SetActive(false);
+            lanternaAcesa.SetActive(true);
+        }
     }
 
     public void setChave1()
