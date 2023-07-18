@@ -22,8 +22,10 @@ namespace StarterAssets
 		public float RotationSpeed = 1.0f;
 		[Tooltip("Acceleration and deceleration")]
 		public float SpeedChangeRate = 10.0f;
+        [Tooltip("Animations of the character")]
+        public Animator ani;
 
-		[Space(10)]
+        [Space(10)]
 		[Tooltip("The height the player can jump")]
 		public float JumpHeight = 1.2f;
 		[Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
@@ -137,6 +139,10 @@ namespace StarterAssets
 
 		private void CameraRotation()
 		{
+			if (Time.deltaTime == 0)
+			{
+				return;
+			}
 			// if there is an input
 			if (_input.look.sqrMagnitude >= _threshold)
 			{
@@ -177,12 +183,14 @@ namespace StarterAssets
                 {
 					targetSpeed = velocityCrouched;
                     _controller.height = Mathf.Lerp(_controller.height, 1f, 3.5f * Time.deltaTime);
+					ani.SetBool("isCrouched", true);
                     isCrouched = true;
 				}
 				else if (!isRunning)
 				{
                     targetSpeed = MoveSpeed;
                     _controller.height = Mathf.Lerp(_controller.height, 2f, 3.5f * Time.deltaTime);
+                    ani.SetBool("isCrouched", false);
                     isCrouched = false;
 				}
 

@@ -52,12 +52,12 @@
                 },
                 {
                     "name": "OpenDoor",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "e64d0d5e-191b-4c67-98ea-a0b7053c70a1",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Key",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Collect",
