@@ -276,8 +276,8 @@ public class MenuController : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(play, LoadSceneMode.Single);
-        SceneManager.LoadScene(play);
+        //SceneManager.LoadScene(play, LoadSceneMode.Single);
+        SceneManager.LoadScene(3);
     }
 
     public void QuitGame()
