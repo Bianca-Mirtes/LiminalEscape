@@ -81,7 +81,7 @@ public class InputController : MonoBehaviour
             if (gamepadOn == true)
             {
                 gamepadOn = false;
-                Cursor.visible = true;
+                //Cursor.visible = true;
             }
         }
 

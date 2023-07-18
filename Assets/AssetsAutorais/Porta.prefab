@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1633922129596556, guid: a16eae0af83edd24a9e7bdf1d02099e3, type: 3}
       propertyPath: m_Name
-      value: jj_door_1_red Variant
+      value: Porta
       objectReference: {fileID: 0}
     - target: {fileID: 4222329071303694, guid: a16eae0af83edd24a9e7bdf1d02099e3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -108,10 +108,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4834372910577209559}
-    - targetCorrespondingSourceObject: {fileID: 1163890191618404, guid: a16eae0af83edd24a9e7bdf1d02099e3,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8569084052266738696}
     - targetCorrespondingSourceObject: {fileID: 1827861296418864, guid: a16eae0af83edd24a9e7bdf1d02099e3,
         type: 3}
       insertIndex: -1
@@ -318,17 +314,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8569084052266738696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8378771559375957344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a67bde7c26d0ba94d957174c4140a276, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  opening: {fileID: 8300000, guid: 26e70eb0c5202e4488396967467a57a5, type: 3}
-  closing: {fileID: 8300000, guid: 5499505c53a232b4d9d30f0ed70d5829, type: 3}
