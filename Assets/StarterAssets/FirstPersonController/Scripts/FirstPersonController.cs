@@ -160,29 +160,32 @@ namespace StarterAssets
 		private void Move()
 		{
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed;// _input.sprint ? SprintSpeed : MoveSpeed;
-            if (_input.sprint && Grounded && !isCrouched) // caso esteja correndo, ou seja não agachado nem andando
-            {
-                targetSpeed = SprintSpeed;
-                isRunning = true;
-            }
-			else // andando
+			float targetSpeed = 0f;// _input.sprint ? SprintSpeed : MoveSpeed;
+			if (Grounded)
 			{
-                targetSpeed = MoveSpeed;
-                isRunning = false;
-            }
+				if (_input.sprint && !isCrouched)
+				{
+                    targetSpeed = SprintSpeed;
+                    isRunning = true;
+				}
+				else
+				{
+                    targetSpeed = MoveSpeed;
+                    isRunning = false;
+                }
+                if (_input.squat && !isRunning)
+                {
+					targetSpeed = velocityCrouched;
+                    _controller.height = Mathf.Lerp(_controller.height, 1f, 3.5f * Time.deltaTime);
+                    isCrouched = true;
+				}
+				else if (!isRunning)
+				{
+                    targetSpeed = MoveSpeed;
+                    _controller.height = Mathf.Lerp(_controller.height, 2f, 3.5f * Time.deltaTime);
+                    isCrouched = false;
+				}
 
-            if (_input.squat && Grounded && !isRunning) // caso esteja agachado, ou seja, sem correr e sem andar
-            {
-                targetSpeed = velocityCrouched;
-                _controller.height = Mathf.Lerp(_controller.height, 1f, 3.5f * Time.deltaTime);
-                isCrouched = true;
-            }
-			else if (!isRunning) // correndo
-			{
-                targetSpeed = SprintSpeed;
-                _controller.height = Mathf.Lerp(_controller.height, 2f, 3.5f * Time.deltaTime);
-                isCrouched = false;
             }
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 

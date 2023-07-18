@@ -13,6 +13,9 @@ namespace StarterAssets
 		public bool jump;
 		public bool sprint;
 		public bool squat;
+		public bool openDoor;
+		public bool collect;
+		public bool attack;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -49,6 +52,21 @@ namespace StarterAssets
         {
             SquatInput(value.isPressed);
         }
+
+        public void OnAttack(InputValue value)
+        {
+            AttackInput(value.isPressed);
+        }
+
+        public void OnOpenDoor(InputValue value)
+        {
+            OpenDoorInput(value.isPressed);
+        }
+
+        public void OnCollect(InputValue value)
+        {
+            CollectInput(value.isPressed);
+        }
 #endif
 
 
@@ -75,6 +93,20 @@ namespace StarterAssets
         public void SquatInput(bool newSquatState)
         {
             squat = newSquatState;
+        }
+
+        public void AttackInput(bool newAttackState)
+        {
+            attack = newAttackState;
+        }
+        public void OpenDoorInput(bool newOpenDoorState)
+        {
+            openDoor = newOpenDoorState;
+        }
+
+        public void CollectInput(bool newCollectState)
+        {
+            collect = newCollectState;
         }
 
         private void OnApplicationFocus(bool hasFocus)

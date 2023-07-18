@@ -19,11 +19,11 @@ public class KeysController : MonoBehaviour
     void Update()
     {
         distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-        if (distanceToPlayer <= 3f)
+        if (distanceToPlayer <= 2f)
         {
             canCollect = true;
         }
-        else if (distanceToPlayer > 3f)
+        else if (distanceToPlayer > 2f)
         {
             canCollect = false;
         }
@@ -41,7 +41,7 @@ public class KeysController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(transform.position, 3f);
+        //Gizmos.DrawSphere(transform.position, 2f);
     }
 }
 
