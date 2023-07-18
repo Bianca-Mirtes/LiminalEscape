@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -16,7 +17,7 @@ namespace StarterAssets
 		public float MoveSpeed = 3.5f;
 		[Tooltip("Sprint speed of the character in m/s")]
 		public float SprintSpeed = 5.5f;
-		private bool isRunning;
+		private bool isRunning = false;
 		[Tooltip("Rotation speed of the character")]
 		public float RotationSpeed = 1.0f;
 		[Tooltip("Acceleration and deceleration")]
@@ -63,7 +64,7 @@ namespace StarterAssets
 
 		// Squat
 		private float velocityCrouched = 2f;
-		private bool isCrouched;
+		private bool isCrouched = false;
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -115,7 +116,7 @@ namespace StarterAssets
 			_fallTimeoutDelta = FallTimeout;
 		}
 
-		private void FixedUpdate()
+		private void Update()
 		{
 			JumpAndGravity();
 			GroundedCheck();
@@ -159,31 +160,30 @@ namespace StarterAssets
 		private void Move()
 		{
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
-            if (_input.sprint && Grounded && isCrouched == false)
+			float targetSpeed;// _input.sprint ? SprintSpeed : MoveSpeed;
+            if (_input.sprint && Grounded && !isCrouched) // caso esteja correndo, ou seja não agachado nem andando
             {
                 targetSpeed = SprintSpeed;
                 isRunning = true;
             }
-            else
-            {
+			else // andando
+			{
                 targetSpeed = MoveSpeed;
                 isRunning = false;
             }
 
-            if (Input.GetKey(KeyCode.Q) && Grounded && isRunning == false)
+            if (_input.squat && Grounded && !isRunning) // caso esteja agachado, ou seja, sem correr e sem andar
             {
                 targetSpeed = velocityCrouched;
-                transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
+                _controller.height = Mathf.Lerp(_controller.height, 1f, 3.5f * Time.deltaTime);
                 isCrouched = true;
             }
-            else if (isRunning == false)
-            {
-                targetSpeed = MoveSpeed;
-				isCrouched = false;
-                transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
+			else if (!isRunning) // correndo
+			{
+                targetSpeed = SprintSpeed;
+                _controller.height = Mathf.Lerp(_controller.height, 2f, 3.5f * Time.deltaTime);
+                isCrouched = false;
             }
-			//_controller.height = Mathf.Lerp(_controller.height, 0.5f, 4*Time.deltaTime);
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
