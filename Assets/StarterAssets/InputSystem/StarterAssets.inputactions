@@ -43,9 +43,9 @@
                 },
                 {
                     "name": "Squat",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "11876ef5-3fec-48b5-80cc-1e68250fe381",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
