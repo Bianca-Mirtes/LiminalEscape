@@ -162,6 +162,18 @@ public class GameController : MonoBehaviour
     public void SetLifeTool()
     {
         LifeTool--;
+        if(LifeTool == 2)
+        {
+            HUD.delUso3();
+        }
+        if (LifeTool == 1)
+        {
+            HUD.delUso2();
+        }
+        if (LifeTool == 0)
+        {
+            HUD.delUso1();
+        }
     }
 
 
