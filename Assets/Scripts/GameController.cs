@@ -5,6 +5,7 @@ using StarterAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEditor;
+using System.Collections.Specialized;
 
 public class GameController : MonoBehaviour
 {
@@ -24,14 +25,17 @@ public class GameController : MonoBehaviour
 
     [Header("Tools")]
     public AudioClip brokenTool;
-    private int LifeTool = 3; 
-    
+    private int LifeTool = 3;
+
     [Header("Player")]
     public GameObject player;
     public GameObject key1;
     public GameObject key2;
     private GameObject tool;
-   
+    private string typeTool;
+    private Vector3 positionTool = new Vector3(-30.953f, -179.683f, 94.377f);
+    private Quaternion qTo;
+
 
 
     void Start()
@@ -39,7 +43,7 @@ public class GameController : MonoBehaviour
         open = false;
         isKey1 = false;
         isKey2 = false;
-}
+    }
 
     private void Doors()
     {
@@ -104,6 +108,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void SetTypeTool(string name)
+    {
+        this.typeTool = name;
+    }
+
     void Update()
     {
         Doors();
@@ -121,21 +130,28 @@ public class GameController : MonoBehaviour
             if(LifeTool == 0)
             {
                 // som da ferramenta quebrando (isso é pra mim) kkkk
+                Destroy(tool);
                 tool = null;
                 LifeTool = 3;
+
             }
-            this.tool = GameObject.FindObjectOfType<SpawnerToolsController>().VerifTools();
-            if(tool != null)
+            typeTool = FindObjectOfType<SpawnerToolsController>().VerifTools();
+
+            this.tool = GameObject.Find("Tool").transform.GetChild(0).gameObject;
+            qTo = Quaternion.LookRotation(positionTool);
+            tool.transform.rotation = Quaternion.Slerp(transform.rotation, qTo, 3*Time.deltaTime);
+
+            if (tool != null)
             {
-                if (tool.tag.Equals("Machado"))
+                if (typeTool.Equals("Machado"))
                 {
                     // Bota o icone na HUD
                 }
-                if (tool.tag.Equals("PeDeCabra"))
+                if (typeTool.Equals("PeDeCabra"))
                 {
                     // Bota o icone na HUD
                 }
-                if (tool.tag.Equals("Martelo"))
+                if (typeTool.Equals("Martelo"))
                 {
                     // Bota o icone na HUD
                 }
