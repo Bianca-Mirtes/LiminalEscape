@@ -37,8 +37,6 @@ public class GameController : MonoBehaviour
     private HUDController HUD;
     private string typeTool;
     private Vector3 positionTool = new Vector3(-30.953f, -179.683f, 94.377f);
-    private Quaternion qTo;
-
 
 
     void Start()
@@ -145,8 +143,7 @@ public class GameController : MonoBehaviour
             typeTool = FindObjectOfType<SpawnerToolsController>().VerifTools();
 
             this.tool = GameObject.Find("Tool").transform.GetChild(0).gameObject;
-            qTo = Quaternion.LookRotation(positionTool);
-            tool.transform.rotation = Quaternion.Slerp(transform.rotation, qTo, 3*Time.deltaTime);
+            tool.transform.rotation = Quaternion.Euler(positionTool);
 
             if (tool != null)
             {

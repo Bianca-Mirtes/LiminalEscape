@@ -22,7 +22,9 @@ public class SpawnerToolsController : MonoBehaviour
         for (int ii=0; ii < qntTools; ii++)
         {
             int posRandom = Random.Range(0, spawnPoints.Count);
-            Instantiate(tools[Random.Range(0, tools.Length)], spawnPoints[posRandom].transform.position, Quaternion.identity, toolsSlot.transform);
+            int toolRandom = Random.Range(0, tools.Length);
+            tools[toolRandom].GetComponent<Rigidbody>().isKinematic = true;
+            Instantiate(tools[toolRandom], spawnPoints[posRandom].transform.position, Quaternion.identity, toolsSlot.transform);
             spawnPoints.Remove(spawnPoints[posRandom]);
         }
     }
@@ -37,9 +39,7 @@ public class SpawnerToolsController : MonoBehaviour
             {
                 canCollect = false;
                 string name = toolsSlot.transform.GetChild(ii).tag;
-                Instantiate(toolsSlot.transform.GetChild(ii), new Vector3(toolPlayerPosition.position.x, 
-                    toolPlayerPosition.position.y, toolPlayerPosition.position.z)
-                    , Quaternion.identity, toolPlayerPosition);
+                Instantiate(toolsSlot.transform.GetChild(ii), toolPlayerPosition.position, Quaternion.identity, toolPlayerPosition);
                 Destroy(toolsSlot.transform.GetChild(ii).gameObject);
                 return name;
             }
