@@ -107,7 +107,10 @@ public class GameController : MonoBehaviour
     void Update()
     {
         Doors();
-        Keys();
+        if(key1 != null || key2 != null)
+        {
+           Keys();
+        }
         Tools();
     }
 

@@ -8,11 +8,14 @@ using System.IO;
 using TMPro;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+using UnityEngine.InputSystem;
 
 public class MenuController : MonoBehaviour
 {
     //Constantes de menu
     public int play = 3;
+
+    public AudioClip MenuSound;
 
     public static MenuController instance = null;
     private int previousSceneIndex;
@@ -52,6 +55,7 @@ public class MenuController : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
+        GetComponent<AudioSource>().PlayOneShot(MenuSound);
         menuDePauseBtn = GameObject.Find("VoltarBtn").GetComponent<Button>();
         continuarBtn = GameObject.Find("ContinuarBtn").GetComponent<Button>();
         configuracoesBtn = GameObject.Find("ConfigBtn").GetComponent<Button>();
