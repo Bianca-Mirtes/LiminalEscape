@@ -30,7 +30,7 @@ public class SpawnerToolsController : MonoBehaviour
     {
         for (int ii = 0; ii < toolsSlot.transform.childCount; ii++)
         {
-            Transform player = GameObject.FindGameObjectWithTag("PLayer").transform;
+            Transform player = GameObject.FindGameObjectWithTag("Player").transform;
             distancePlayerToTool = Vector3.Distance(player.transform.position, toolsSlot.transform.GetChild(ii).position);
             if(distancePlayerToTool <= 2.5f && canCollect)
             {
