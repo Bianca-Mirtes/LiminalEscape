@@ -223,10 +223,11 @@ public class MenuController : MonoBehaviour
     }
     public void loadScene()
     {
-        if (SceneManager.GetActiveScene().name.Equals("Vitoria"))
-        {
-            SceneManager.LoadScene(previousSceneIndex + 1);
-        }
+        SceneManager.LoadScene(3);
+        //if (SceneManager.GetActiveScene().name.Equals("Vitoria"))
+        //{
+        //    SceneManager.LoadScene(previousSceneIndex + 1);
+        //}
     }
 
     public void PreviousScene(int index)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using StarterAssets;
 using UnityEngine.InputSystem;
@@ -12,7 +13,7 @@ public class GameController : MonoBehaviour
     public AudioClip opening, closing, locked;
     private bool open;
     public GameObject door1;
-    public GameObject door2;
+    //public GameObject door2;
     public GameObject saida;
     private float distanceForInteract = 2.5f, distancePlayerDoor1, distancePlayerDoor2;
 
@@ -31,7 +32,8 @@ public class GameController : MonoBehaviour
     public GameObject key1;
     public GameObject key2;
     private GameObject tool;
-   
+
+    private HUDController HUD;
 
 
     void Start()
@@ -39,12 +41,13 @@ public class GameController : MonoBehaviour
         open = false;
         isKey1 = false;
         isKey2 = false;
-}
+        HUD = FindObjectOfType<HUDController>();
+    }
 
     private void Doors()
     {
         distancePlayerDoor1 = Vector3.Distance(player.transform.position, door1.transform.position);
-        distancePlayerDoor2 = Vector3.Distance(player.transform.position, door2.transform.position);
+        distancePlayerDoor2 = Vector3.Distance(player.transform.position, saida.transform.position);
         if (Input.GetKeyDown(KeyCode.O))
         {
             if (distancePlayerDoor1 <= distanceForInteract)
@@ -77,25 +80,28 @@ public class GameController : MonoBehaviour
             {
                 if (isKey2)
                 {
-                    door2.GetComponent<Animator>().SetBool("isLocked", false);
+                    
+                    saida.GetComponent<Animator>().SetBool("isLocked", false);
                     open = !open;
                     if (open)
                     {
-                        door2.GetComponent<Animator>().SetBool("isOpen", true);
-                        door2.GetComponent<AudioSource>().PlayOneShot(opening);
+                        saida.GetComponent<Animator>().SetBool("isOpen", true);
+                        saida.GetComponent<AudioSource>().PlayOneShot(opening);
                         open = false; // só pode fechar agora
                     }
                     else
                     {
-                        door2.GetComponent<Animator>().SetBool("isOpen", false);
-                        door2.GetComponent<AudioSource>().PlayOneShot(closing);
+                        saida.GetComponent<Animator>().SetBool("isOpen", false);
+                        saida.GetComponent<AudioSource>().PlayOneShot(closing);
                         open = true; // pode voltar a abrir
                     }
+                    SceneManager.LoadScene(2);
                 }
                 else
                 {
-                    door2.GetComponent<Animator>().SetBool("isLocked", true);
-                    door2.GetComponent<AudioSource>().PlayOneShot(locked);
+                    SceneManager.LoadScene(1);
+                    saida.GetComponent<Animator>().SetBool("isLocked", true);
+                    saida.GetComponent<AudioSource>().PlayOneShot(locked);
                     // mensagem de porta trancada (vai que é tua tafarel)
                 }
 
@@ -161,6 +167,7 @@ public class GameController : MonoBehaviour
                 key1.GetComponent<AudioSource>().PlayOneShot(collectKey);
                 isKey1 = true;
                 // bota o icone na HUD (Vai que é tua tafarel!!)
+                HUD.setChave1();
                 Invoke("DestroyKey", 1f);
             }
 
@@ -168,6 +175,7 @@ public class GameController : MonoBehaviour
             {
                 key2.GetComponent<AudioSource>().PlayOneShot(collectKey);
                 isKey2 = true;
+                HUD.setChave2();
                 // bota o icone na HUD (Vai que é tua tafarel!!)
                 Invoke("DestroyKey", 1f);
             }
@@ -177,13 +185,13 @@ public class GameController : MonoBehaviour
 
     void DestroyKey()
     {
-        if(isKey1)
-        {
-            Destroy(key1);
-        }
-        else
+        if (isKey2)
         {
             Destroy(key2);
+        }
+        if (isKey1)
+        {
+            Destroy(key1);
         }
     }
 }
