@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
     private NavMeshAgent navMesh; 
 
     private float velocityWalking = 3f, velocityPersecution = 5f;
-    private float distanceFollow = 20f, distancePerception = 30f, distanceAttack = 2f;
+    private float distanceFollow = 15f, distancePerception = 25f, distanceAttack = 2.5f;
 
     private float timeForAttack = 1.5f;
     private float distanceForPlayer, distanceForAIPoint;
@@ -94,6 +94,7 @@ public class EnemyController : MonoBehaviour
 
         if (teste/*followSomething*/)
         {
+            //FindObjectOfType<AudioController>().TensionSoundStart();
             ani.SetBool("isRunning", true);
             countPersecution += Time.deltaTime;
         }
@@ -128,6 +129,7 @@ public class EnemyController : MonoBehaviour
     {
         if (!followSomething)
         {
+            //FindObjectOfType<AudioController>().TensionSoundFinish();
             ani.SetBool("isRunning", false);
             navMesh.acceleration = 5f;
             navMesh.speed = velocityWalking;
@@ -142,6 +144,7 @@ public class EnemyController : MonoBehaviour
     void See()
     {
         ani.SetBool("isIdle", true);
+        //FindObjectOfType<AudioController>().TensionSoundStart();
         navMesh.speed = 0f;
         transform.LookAt(player);
 
@@ -149,6 +152,7 @@ public class EnemyController : MonoBehaviour
 
     void Follow()
     {
+        //FindObjectOfType<AudioController>().TensionSoundStart();
         ani.SetBool("isRunning", true);
         navMesh.acceleration = 8f;
         navMesh.speed = velocityPersecution;
