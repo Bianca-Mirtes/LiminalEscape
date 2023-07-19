@@ -15,7 +15,7 @@ public class UIController : MonoBehaviour
     public bool telaDeEstadoFinal;
     public float volumeSlider = 0.8f;
 
-    //private AudioController audioBtn;
+    private AudioController audioBtn;
 
 
     //Cores
@@ -57,7 +57,7 @@ public class UIController : MonoBehaviour
         GameObject volume = GameObject.Find("SliderVolume");
         EventSystem.current.SetSelectedGameObject(volume);
         Slider slider = volume.GetComponent<Slider>();
-        //slider.value = audioBtn.GetVolume();
+        slider.value = audioBtn.GetVolume();
     }
 
     public void selectPlay()
@@ -102,7 +102,7 @@ public class UIController : MonoBehaviour
                 if (slider.value != volumeSlider)
                 {
                     volumeSlider = slider.value;
-                    //audioBtn.ControlaVolume(volumeSlider);
+                    audioBtn.ControlaVolume(volumeSlider);
                 }
             }
             else
@@ -110,7 +110,7 @@ public class UIController : MonoBehaviour
                 //Aqui vem o som de troca
                 if (botaoAtual != null)
                 {
-                    //audioBtn.MoveButton();
+                    audioBtn.MoveButton();
                 }
             }
 
@@ -158,13 +158,13 @@ public class UIController : MonoBehaviour
 
     private void clique()
     {
-        //audioBtn = GameObject.Find("AudioController").GetComponent<AudioController>();
-        //audioBtn.Click();
+        audioBtn = GameObject.Find("AudioController").GetComponent<AudioController>();
+        audioBtn.Click();
     }
 
     void Update()
     {
-        //audioBtn = GameObject.Find("AudioController").GetComponent<AudioController>();
+        audioBtn = GameObject.Find("AudioController").GetComponent<AudioController>();
         //if (entrada == null)
         //{
         //    entrada = FindObjectOfType<InputController>();

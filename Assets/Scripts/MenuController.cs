@@ -39,7 +39,7 @@ public class MenuController : MonoBehaviour
 
     public GameObject pause;
 
-    //private AudioController controleDeAudio;
+    private AudioController controleDeAudio;
     public int indexCena;
 
     // Start is called before the first frame update
@@ -123,12 +123,12 @@ public class MenuController : MonoBehaviour
         {
             //Salva fase atual pra continuar
             PlayerPrefs.SetInt("FaseAtual", SceneManager.GetActiveScene().buildIndex);
-            //controleDeAudio = GameObject.Find("AudioController").GetComponent<AudioController>();
+            controleDeAudio = GameObject.Find("AudioController").GetComponent<AudioController>();
             pause.SetActive(true);
             configMenuPausa.SetActive(true);
             GameObject volume = GameObject.Find("SliderVolume");
             Slider slider = volume.GetComponent<Slider>();
-            //slider.value = controleDeAudio.GetVolume();
+            slider.value = controleDeAudio.GetVolume();
 
             while (!pause.activeSelf && !buttonContinuar.activeSelf)
             { // Aguarda ate que o menu de pause esteja ativo
