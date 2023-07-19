@@ -48,16 +48,16 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "OpenDoor",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "e64d0d5e-191b-4c67-98ea-a0b7053c70a1",
-                    "expectedControlType": "Key",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Collect",

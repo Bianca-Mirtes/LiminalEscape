@@ -17,7 +17,7 @@ namespace StarterAssets
 		public float MoveSpeed = 3.5f;
 		[Tooltip("Sprint speed of the character in m/s")]
 		public float SprintSpeed = 5.5f;
-		private bool isRunning = false;
+		private bool isRunning;
 		[Tooltip("Rotation speed of the character")]
 		public float RotationSpeed = 1.0f;
 		[Tooltip("Acceleration and deceleration")]
@@ -66,7 +66,7 @@ namespace StarterAssets
 
 		// Squat
 		private float velocityCrouched = 2f;
-		private bool isCrouched = false;
+		private bool isCrouched;
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -125,7 +125,7 @@ namespace StarterAssets
 			Move();
 		}
 
-		private void LateUpdate()
+        private void LateUpdate()
 		{
 			CameraRotation();
 		}
@@ -183,18 +183,35 @@ namespace StarterAssets
                 {
 					targetSpeed = velocityCrouched;
                     _controller.height = Mathf.Lerp(_controller.height, 1f, 3.5f * Time.deltaTime);
-					ani.SetBool("isCrouched", true);
                     isCrouched = true;
 				}
 				else if (!isRunning)
 				{
                     targetSpeed = MoveSpeed;
                     _controller.height = Mathf.Lerp(_controller.height, 2f, 3.5f * Time.deltaTime);
-                    ani.SetBool("isCrouched", false);
                     isCrouched = false;
 				}
+			}
 
-            }
+			if (targetSpeed == MoveSpeed)
+			{
+				ani.SetBool("isRunning", false);
+				ani.SetBool("isCrouched", false);
+			}
+			else
+			{
+				if (targetSpeed == SprintSpeed)
+				{
+					ani.SetBool("isRunning", true);
+					ani.SetBool("isCrouched", false);
+				}
+				else
+				{
+					ani.SetBool("isCrouched", true);
+					ani.SetBool("isRunning", false);
+				}
+			}
+
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
@@ -253,15 +270,20 @@ namespace StarterAssets
 				// Jump
 				if (_input.jump && _jumpTimeoutDelta <= 0.0f)
 				{
-					// the square root of H * -2 * G = how much velocity needed to reach desired height
-					_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+                    // the square root of H * -2 * G = how much velocity needed to reach desired height
+                    ani.SetBool("isJumping", true);
+                    _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 				}
+				else
+				{
+                    ani.SetBool("isJumping", false);
+                }
 
 				// jump timeout
 				if (_jumpTimeoutDelta >= 0.0f)
 				{
 					_jumpTimeoutDelta -= Time.deltaTime;
-				}
+                }
 			}
 			else
 			{
@@ -274,8 +296,9 @@ namespace StarterAssets
 					_fallTimeoutDelta -= Time.deltaTime;
 				}
 
-				// if we are not grounded, do not jump
-				_input.jump = false;
+                // if we are not grounded, do not jump
+                ani.SetBool("isJumping", false);
+                _input.jump = false;
 			}
 
 			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
