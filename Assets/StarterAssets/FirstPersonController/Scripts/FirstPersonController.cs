@@ -181,6 +181,14 @@ namespace StarterAssets
                 }
                 if (_input.squat && !isRunning)
                 {
+					if(Input.GetKeyDown(KeyCode.Q)) 
+					{
+                        ani.SetBool("isAtacking", true);
+					}
+					else
+					{
+                        ani.SetBool("isAtacking", false);
+                    }
 					targetSpeed = velocityCrouched;
                     _controller.height = Mathf.Lerp(_controller.height, 1f, 3.5f * Time.deltaTime);
                     isCrouched = true;

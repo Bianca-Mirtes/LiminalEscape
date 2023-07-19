@@ -63,20 +63,17 @@ public class GameController : MonoBehaviour
                     {
                         door1.GetComponent<Animator>().SetBool("isOpen", true);
                         door1.GetComponent<AudioSource>().PlayOneShot(opening);
-                        open = false; // s� pode fechar agora
                     }
                     else
                     {
                         door1.GetComponent<Animator>().SetBool("isOpen", false);
                         door1.GetComponent<AudioSource>().PlayOneShot(closing);
-                        open = true; // pode voltar a abrir
                     }
                 }
                 else
                 {
                     door1.GetComponent<Animator>().SetBool("isLocked", true);
                     door1.GetComponent<AudioSource>().PlayOneShot(locked);
-                    // mensagem de porta trancada (vai que � tua tafarel)
                 }
             }
             if (distancePlayerDoor2 <= distanceForInteract)
@@ -90,22 +87,20 @@ public class GameController : MonoBehaviour
                     {
                         saida.GetComponent<Animator>().SetBool("isOpen", true);
                         saida.GetComponent<AudioSource>().PlayOneShot(opening);
-                        open = false; // s� pode fechar agora
+
                     }
                     else
                     {
                         saida.GetComponent<Animator>().SetBool("isOpen", false);
                         saida.GetComponent<AudioSource>().PlayOneShot(closing);
-                        open = true; // pode voltar a abrir
                     }
-                    SceneManager.LoadScene(2);
+                    SceneManager.LoadScene(2); // vitoria
                 }
                 else
                 {
-                    SceneManager.LoadScene(1);
+                    SceneManager.LoadScene(1); // derrota
                     saida.GetComponent<Animator>().SetBool("isLocked", true);
                     saida.GetComponent<AudioSource>().PlayOneShot(locked);
-                    // mensagem de porta trancada (vai que � tua tafarel)
                 }
 
             }
@@ -121,10 +116,7 @@ public class GameController : MonoBehaviour
     void Update()
     {
         Doors();
-        if(key1 != null || key2 != null)
-        {
-           Keys();
-        }
+        Keys();
         Tools();
     }
 
@@ -180,7 +172,6 @@ public class GameController : MonoBehaviour
             {
                 key1.GetComponent<AudioSource>().PlayOneShot(collectKey);
                 isKey1 = true;
-                // bota o icone na HUD (Vai que � tua tafarel!!)
                 HUD.setChave1();
                 Invoke("DestroyKey", 1f);
             }
