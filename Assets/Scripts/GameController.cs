@@ -6,6 +6,7 @@ using StarterAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEditor;
+using System.Collections.Specialized;
 
 public class GameController : MonoBehaviour
 {
@@ -25,8 +26,8 @@ public class GameController : MonoBehaviour
 
     [Header("Tools")]
     public AudioClip brokenTool;
-    private int LifeTool = 3; 
-    
+    private int LifeTool = 3;
+
     [Header("Player")]
     public GameObject player;
     public GameObject key1;
@@ -34,6 +35,10 @@ public class GameController : MonoBehaviour
     private GameObject tool;
 
     private HUDController HUD;
+    private string typeTool;
+    private Vector3 positionTool = new Vector3(-30.953f, -179.683f, 94.377f);
+    private Quaternion qTo;
+
 
 
     void Start()
@@ -60,7 +65,7 @@ public class GameController : MonoBehaviour
                     {
                         door1.GetComponent<Animator>().SetBool("isOpen", true);
                         door1.GetComponent<AudioSource>().PlayOneShot(opening);
-                        open = false; // só pode fechar agora
+                        open = false; // sï¿½ pode fechar agora
                     }
                     else
                     {
@@ -73,7 +78,7 @@ public class GameController : MonoBehaviour
                 {
                     door1.GetComponent<Animator>().SetBool("isLocked", true);
                     door1.GetComponent<AudioSource>().PlayOneShot(locked);
-                    // mensagem de porta trancada (vai que é tua tafarel)
+                    // mensagem de porta trancada (vai que ï¿½ tua tafarel)
                 }
             }
             if (distancePlayerDoor2 <= distanceForInteract)
@@ -87,7 +92,7 @@ public class GameController : MonoBehaviour
                     {
                         saida.GetComponent<Animator>().SetBool("isOpen", true);
                         saida.GetComponent<AudioSource>().PlayOneShot(opening);
-                        open = false; // só pode fechar agora
+                        open = false; // sï¿½ pode fechar agora
                     }
                     else
                     {
@@ -102,12 +107,17 @@ public class GameController : MonoBehaviour
                     SceneManager.LoadScene(1);
                     saida.GetComponent<Animator>().SetBool("isLocked", true);
                     saida.GetComponent<AudioSource>().PlayOneShot(locked);
-                    // mensagem de porta trancada (vai que é tua tafarel)
+                    // mensagem de porta trancada (vai que ï¿½ tua tafarel)
                 }
 
             }
             Debug.Log("apertou");
         }
+    }
+
+    public void SetTypeTool(string name)
+    {
+        this.typeTool = name;
     }
 
     void Update()
@@ -126,22 +136,29 @@ public class GameController : MonoBehaviour
         {
             if(LifeTool == 0)
             {
-                // som da ferramenta quebrando (isso é pra mim) kkkk
+                // som da ferramenta quebrando (isso ï¿½ pra mim) kkkk
+                Destroy(tool);
                 tool = null;
                 LifeTool = 3;
+
             }
-            this.tool = GameObject.FindObjectOfType<SpawnerToolsController>().VerifTools();
-            if(tool != null)
+            typeTool = FindObjectOfType<SpawnerToolsController>().VerifTools();
+
+            this.tool = GameObject.Find("Tool").transform.GetChild(0).gameObject;
+            qTo = Quaternion.LookRotation(positionTool);
+            tool.transform.rotation = Quaternion.Slerp(transform.rotation, qTo, 3*Time.deltaTime);
+
+            if (tool != null)
             {
-                if (tool.tag.Equals("Machado"))
+                if (typeTool.Equals("Machado"))
                 {
                     // Bota o icone na HUD
                 }
-                if (tool.tag.Equals("PeDeCabra"))
+                if (typeTool.Equals("PeDeCabra"))
                 {
                     // Bota o icone na HUD
                 }
-                if (tool.tag.Equals("Martelo"))
+                if (typeTool.Equals("Martelo"))
                 {
                     // Bota o icone na HUD
                 }
@@ -166,7 +183,7 @@ public class GameController : MonoBehaviour
             {
                 key1.GetComponent<AudioSource>().PlayOneShot(collectKey);
                 isKey1 = true;
-                // bota o icone na HUD (Vai que é tua tafarel!!)
+                // bota o icone na HUD (Vai que ï¿½ tua tafarel!!)
                 HUD.setChave1();
                 Invoke("DestroyKey", 1f);
             }
@@ -176,7 +193,7 @@ public class GameController : MonoBehaviour
                 key2.GetComponent<AudioSource>().PlayOneShot(collectKey);
                 isKey2 = true;
                 HUD.setChave2();
-                // bota o icone na HUD (Vai que é tua tafarel!!)
+                // bota o icone na HUD (Vai que ï¿½ tua tafarel!!)
                 Invoke("DestroyKey", 1f);
             }
             Debug.Log("apertou key");
