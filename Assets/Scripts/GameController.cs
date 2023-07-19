@@ -144,15 +144,15 @@ public class GameController : MonoBehaviour
             {
                 if (typeTool.Equals("Machado"))
                 {
-                    // Bota o icone na HUD
+                    HUD.setMachado();
                 }
                 if (typeTool.Equals("PeDeCabra"))
                 {
-                    // Bota o icone na HUD
+                    HUD.setPeDeCabra();
                 }
                 if (typeTool.Equals("Martelo"))
                 {
-                    // Bota o icone na HUD
+                    HUD.setMartelo();
                 }
                 GameObject.FindObjectOfType<SpawnerToolsController>().SetcanCollect(false);
             }
