@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     public GameObject door1;
     public GameObject door2;
     public GameObject saida;
-    private float distanceForInteract = 2f, distancePlayerDoor1, distancePlayerDoor2;
+    private float distanceForInteract = 2.5f, distancePlayerDoor1, distancePlayerDoor2;
 
     [Header("Keys")]
     public AudioClip collectKey;
@@ -149,8 +149,8 @@ public class GameController : MonoBehaviour
 
     public void Keys()
     {
-        distancePlayerToKey1 = Vector3.Distance(player.transform.position, key1.transform.position);
-        distancePlayerToKey2 = Vector3.Distance(player.transform.position, key2.transform.position);
+        distancePlayerToKey1 = key1 != null ? Vector3.Distance(player.transform.position, key1.transform.position) : 10f;
+        distancePlayerToKey2 = key2 != null ? Vector3.Distance(player.transform.position, key2.transform.position) : 10f;
         if (Input.GetKeyDown(KeyCode.K))
         {
             if (distancePlayerToKey1 <= distanceForInteract)

@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Key
   - dynamicIcon
+  - Machado
+  - PeDeCabra
+  - Martelo
   layers:
   - Default
   - TransparentFX
