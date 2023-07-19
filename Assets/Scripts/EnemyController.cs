@@ -2,26 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EnemyController : MonoBehaviour
 {
     public Transform player;
     private NavMeshAgent navMesh; 
+
     private float velocityWalking = 3f, velocityPersecution = 5f;
     private float distanceFollow = 20f, distancePerception = 30f, distanceAttack = 2f;
+
     private float timeForAttack = 1.5f;
     private float distanceForPlayer, distanceForAIPoint;
+
     private bool seeingPlayer;
     public Transform[] destinyRandow;
     private int AIPointCurrent;
+
     private bool followSomething, attackSomething, teste;
     private float countPersecution=0, countAttack=0;
     private bool playerFrontForEnemy, playerBack;
+
+    private Animator ani;
     // Start is called before the first frame update
     void Start()
     {
         //player = GameObject.FindGameObjectWithTag("Player").transform;
         navMesh = GetComponent<NavMeshAgent>();
+        ani = GetComponent<Animator>();
         AIPointCurrent = Random.Range(0, destinyRandow.Length);
     }
 
@@ -86,6 +94,7 @@ public class EnemyController : MonoBehaviour
 
         if (teste/*followSomething*/)
         {
+            ani.SetBool("isRunning", true);
             countPersecution += Time.deltaTime;
         }
         if(countPersecution >= 5f && seeingPlayer == false)
@@ -97,15 +106,18 @@ public class EnemyController : MonoBehaviour
 
         if (attackSomething)
         {
+            ani.SetBool("isAtacking", true);
             countAttack += Time.deltaTime;
         }
         if(countAttack >= timeForAttack && distanceForPlayer <= distanceAttack)
         {
             attackSomething = true;
             countAttack = 0f;
-            //tira vida do player aqui
+            player.GetComponent<Animator>().SetBool("isDead", true);
+            SceneManager.LoadScene(1); // derrota
         }
         else if (countAttack >= timeForAttack && distanceForPlayer > distanceAttack) {
+            ani.SetBool("isAtacking", false);
             attackSomething = false;
             countAttack = 0f;        
         }
@@ -116,6 +128,7 @@ public class EnemyController : MonoBehaviour
     {
         if (!followSomething)
         {
+            ani.SetBool("isRunning", false);
             navMesh.acceleration = 5f;
             navMesh.speed = velocityWalking;
             navMesh.destination = destinyRandow[AIPointCurrent].transform.position;
@@ -128,6 +141,7 @@ public class EnemyController : MonoBehaviour
 
     void See()
     {
+        ani.SetBool("isIdle", true);
         navMesh.speed = 0f;
         transform.LookAt(player);
 
@@ -135,6 +149,7 @@ public class EnemyController : MonoBehaviour
 
     void Follow()
     {
+        ani.SetBool("isRunning", true);
         navMesh.acceleration = 8f;
         navMesh.speed = velocityPersecution;
         navMesh.destination = player.position;

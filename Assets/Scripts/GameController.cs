@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEditor;
 using System.Collections.Specialized;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class GameController : MonoBehaviour
     public AudioClip opening, closing, locked;
     private bool open;
     public GameObject door1;
-    //public GameObject door2;
+    public GameObject lockedText;
     public GameObject saida;
     private float distanceForInteract = 2.5f, distancePlayerDoor1, distancePlayerDoor2;
 
@@ -69,11 +70,13 @@ public class GameController : MonoBehaviour
                         door1.GetComponent<Animator>().SetBool("isOpen", false);
                         door1.GetComponent<AudioSource>().PlayOneShot(closing);
                     }
+                    lockedText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
                 }
                 else
                 {
                     door1.GetComponent<Animator>().SetBool("isLocked", true);
                     door1.GetComponent<AudioSource>().PlayOneShot(locked);
+                    lockedText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Porta Trancada!!!";
                 }
             }
             if (distancePlayerDoor2 <= distanceForInteract)
